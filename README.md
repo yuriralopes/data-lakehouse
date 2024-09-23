@@ -6,3 +6,6 @@ This project was inspired by the Trampar-de-Lakehouse (https://github.com/TeoMeW
 
 ![image](https://github.com/user-attachments/assets/c3b1a398-3413-488d-a4fa-ac3b9e6195a3)
 
+## Stages
+### Source System
+The data is generated in real-time in a SQL Server database. The tables have a column with a timestamp that contains the date and time of insertion and updates.
