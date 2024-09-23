@@ -8,4 +8,4 @@ This project was inspired by the Trampar-de-Lakehouse (https://github.com/TeoMeW
 
 ## Stages
 ### Source System
-The data is generated in real-time in a SQL Server database. The tables have a column with a timestamp that contains the date and time of insertion and updgit ates. teste teste2 dfdagsgs
+The data is generated in real-time in a SQL Server database. The tables have a column with a timestamp that contains the date and time of insertion or update. 
