@@ -1,0 +1,29 @@
+{
+    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.KeyVault/vaults/KVdatalakehouseyu",
+    "name": "KVdatalakehouseyu",
+    "type": "Microsoft.KeyVault/vaults",
+    "location": "eastus",
+    "tags": {},
+    "properties": {
+        "sku": {
+            "family": "A",
+            "name": "Standard"
+        },
+        "tenantId": "d1c90e28-32cb-41ac-b3eb-5dced487b30a",
+        "networkAcls": {
+            "bypass": "None",
+            "defaultAction": "Allow",
+            "ipRules": [],
+            "virtualNetworkRules": []
+        },
+        "accessPolicies": [],
+        "enabledForDeployment": false,
+        "enabledForDiskEncryption": false,
+        "enabledForTemplateDeployment": false,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 90,
+        "enableRbacAuthorization": true,
+        "vaultUri": "https://kvdatalakehouseyu.vault.azure.net/",
+        "provisioningState": "Succeeded"
+    }
+}
