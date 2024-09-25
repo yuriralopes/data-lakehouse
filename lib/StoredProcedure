@@ -1,0 +1,5 @@
+DECLARE @tmp DATETIME​
+
+SET @tmp = GETDATE()​
+
+exec [dbo].[HandS_ADFPointersVersionUpdate] 'bpaddressesecc_delta',20001231235959,20001231235959, @tmp, @tmp,'v1','Z_MSFT.MDM.EDL/CV_MDM_EDL_BP_BPADDRESSESECC','HANA','v1’,’ EndDate'
