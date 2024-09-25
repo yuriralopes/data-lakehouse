@@ -1,0 +1,25 @@
+{
+    "name": "ADFdatalakehouse2",
+    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.DataFactory/factories/adfdatalakehouse2",
+    "type": "Microsoft.DataFactory/factories",
+    "properties": {
+        "provisioningState": "Succeeded",
+        "createTime": "2024-09-24T23:52:28.4937869Z",
+        "version": "2018-06-01",
+        "factoryStatistics": {
+            "totalResourceCount": 0,
+            "maxAllowedResourceCount": 0,
+            "factorySizeInGbUnits": 0,
+            "maxAllowedFactorySizeInGbUnits": 0
+        },
+        "publicNetworkAccess": "Enabled"
+    },
+    "eTag": "\"c4005ce5-0000-0100-0000-66f350bc0000\"",
+    "location": "eastus",
+    "identity": {
+        "type": "SystemAssigned",
+        "principalId": "40e50768-c818-4a10-acce-7b260a8541cf",
+        "tenantId": "d1c90e28-32cb-41ac-b3eb-5dced487b30a"
+    },
+    "tags": {}
+}

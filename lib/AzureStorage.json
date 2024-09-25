@@ -1,0 +1,65 @@
+{
+    "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+    },
+    "kind": "StorageV2",
+    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.Storage/storageAccounts/dldatalakehouse",
+    "name": "dldatalakehouse",
+    "type": "Microsoft.Storage/storageAccounts",
+    "location": "eastus",
+    "tags": {},
+    "properties": {
+        "dnsEndpointType": "Standard",
+        "defaultToOAuthAuthentication": false,
+        "publicNetworkAccess": "Enabled",
+        "keyCreationTime": {
+            "key1": "2024-09-25T00:24:13.9067071Z",
+            "key2": "2024-09-25T00:24:13.9067071Z"
+        },
+        "allowCrossTenantReplication": false,
+        "privateEndpointConnections": [],
+        "isSftpEnabled": false,
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": true,
+        "largeFileSharesState": "Enabled",
+        "isHnsEnabled": true,
+        "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+            "requireInfrastructureEncryption": false,
+            "services": {
+                "file": {
+                    "keyType": "Account",
+                    "enabled": true,
+                    "lastEnabledTime": "2024-09-25T00:24:14.1410789Z"
+                },
+                "blob": {
+                    "keyType": "Account",
+                    "enabled": true,
+                    "lastEnabledTime": "2024-09-25T00:24:14.1410789Z"
+                }
+            },
+            "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Cool",
+        "provisioningState": "Succeeded",
+        "creationTime": "2024-09-25T00:24:13.7817082Z",
+        "primaryEndpoints": {
+            "dfs": "https://dldatalakehouse.dfs.core.windows.net/",
+            "web": "https://dldatalakehouse.z13.web.core.windows.net/",
+            "blob": "https://dldatalakehouse.blob.core.windows.net/",
+            "queue": "https://dldatalakehouse.queue.core.windows.net/",
+            "table": "https://dldatalakehouse.table.core.windows.net/",
+            "file": "https://dldatalakehouse.file.core.windows.net/"
+        },
+        "primaryLocation": "eastus",
+        "statusOfPrimary": "available"
+    }
+}

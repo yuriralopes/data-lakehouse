@@ -1,6 +1,6 @@
 {
-    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.KeyVault/vaults/KVdatalakehouseyu",
-    "name": "KVdatalakehouseyu",
+    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.KeyVault/vaults/KVdatalakehouseyu2",
+    "name": "KVdatalakehouseyu2",
     "type": "Microsoft.KeyVault/vaults",
     "location": "eastus",
     "tags": {},
@@ -16,14 +16,61 @@
             "ipRules": [],
             "virtualNetworkRules": []
         },
-        "accessPolicies": [],
+        "accessPolicies": [
+            {
+                "tenantId": "d1c90e28-32cb-41ac-b3eb-5dced487b30a",
+                "objectId": "63879615-ce0a-40c1-9e7a-280a35548d47",
+                "permissions": {
+                    "keys": [
+                        "Get",
+                        "List",
+                        "Update",
+                        "Create",
+                        "Import",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore",
+                        "GetRotationPolicy",
+                        "SetRotationPolicy",
+                        "Rotate"
+                    ],
+                    "secrets": [
+                        "Get",
+                        "List",
+                        "Set",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore"
+                    ],
+                    "certificates": [
+                        "Get",
+                        "List",
+                        "Update",
+                        "Create",
+                        "Import",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore",
+                        "ManageContacts",
+                        "ManageIssuers",
+                        "GetIssuers",
+                        "ListIssuers",
+                        "SetIssuers",
+                        "DeleteIssuers"
+                    ]
+                }
+            }
+        ],
         "enabledForDeployment": false,
         "enabledForDiskEncryption": false,
         "enabledForTemplateDeployment": false,
         "enableSoftDelete": true,
         "softDeleteRetentionInDays": 90,
-        "enableRbacAuthorization": true,
-        "vaultUri": "https://kvdatalakehouseyu.vault.azure.net/",
+        "enableRbacAuthorization": false,
+        "vaultUri": "https://kvdatalakehouseyu2.vault.azure.net/",
         "provisioningState": "Succeeded"
     }
 }
