@@ -1,0 +1,74 @@
+{
+    "properties": {
+        "managedResourceGroupId": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/databricks-rg-db_datalakehouse-nfak4gyhxmche",
+        "parameters": {
+            "enableFedRampCertification": {
+                "type": "Bool",
+                "value": false
+            },
+            "enableNoPublicIp": {
+                "type": "Bool",
+                "value": false
+            },
+            "prepareEncryption": {
+                "type": "Bool",
+                "value": false
+            },
+            "publicIpName": {
+                "type": "String",
+                "value": "nat-gw-public-ip"
+            },
+            "requireInfrastructureEncryption": {
+                "type": "Bool",
+                "value": false
+            },
+            "resourceTags": {
+                "type": "Object",
+                "value": {
+                    "application": "databricks",
+                    "databricks-environment": "true"
+                }
+            },
+            "storageAccountName": {
+                "type": "String",
+                "value": "dbstoragejjaxmpjmtiqkw"
+            },
+            "storageAccountSkuName": {
+                "type": "String",
+                "value": "Standard_GRS"
+            },
+            "vnetAddressPrefix": {
+                "type": "String",
+                "value": "10.139"
+            }
+        },
+        "provisioningState": "Succeeded",
+        "authorizations": [
+            {
+                "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+                "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+            }
+        ],
+        "createdBy": {
+            "oid": "63879615-ce0a-40c1-9e7a-280a35548d47",
+            "puid": "00060000A3AC768B",
+            "applicationId": "c44b4083-3bb0-49c1-b47d-974e53cbdf3c"
+        },
+        "updatedBy": {
+            "oid": "63879615-ce0a-40c1-9e7a-280a35548d47",
+            "puid": "00060000A3AC768B",
+            "applicationId": "c44b4083-3bb0-49c1-b47d-974e53cbdf3c"
+        },
+        "workspaceId": "2281059751236376",
+        "workspaceUrl": "adb-2281059751236376.16.azuredatabricks.net",
+        "createdDateTime": "2024-09-26T15:13:39.6896978Z"
+    },
+    "id": "/subscriptions/9e15fdfc-eb90-4af2-ad23-d33651db70cd/resourceGroups/datalakehouse_project/providers/Microsoft.Databricks/workspaces/db_datalakehouse",
+    "name": "db_datalakehouse",
+    "type": "Microsoft.Databricks/workspaces",
+    "sku": {
+        "name": "standard"
+    },
+    "location": "eastus",
+    "tags": {}
+}
