@@ -12,14 +12,12 @@ dbutils.fs.mount(
   mount_point = "/mnt/bronze/",
   extra_configs = configs)
 
-# COMMAND ----------
-
-# DBTITLE 1,Checking folders
+#checking if the mount point is working
 dbutils.fs.ls("/mnt/bronze/Sales/")
 
 # COMMAND ----------
 
-# DBTITLE 1,Mounting Silver
+# DBTITLE 1,Mounting Azure Data Lake - Silver
 configs = {"fs.azure.account.auth.type": "OAuth",
           "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
           "fs.azure.account.oauth2.client.id": "5d49f494-8b9f-429b-95f0-2d60f9a4f4ea",
@@ -36,6 +34,7 @@ dbutils.fs.mount(
 
 # COMMAND ----------
 
+# DBTITLE 1,Mounting Azure Data Lake - Gold
 configs = {"fs.azure.account.auth.type": "OAuth",
           "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
           "fs.azure.account.oauth2.client.id": "5d49f494-8b9f-429b-95f0-2d60f9a4f4ea",
