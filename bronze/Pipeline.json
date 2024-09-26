@@ -47,77 +47,6 @@
                     },
                     "activities": [
                         {
-                            "name": "Publish_File_to_DL",
-                            "type": "Copy",
-                            "dependsOn": [
-                                {
-                                    "activity": "Update New Entires",
-                                    "dependencyConditions": [
-                                        "Succeeded"
-                                    ]
-                                }
-                            ],
-                            "policy": {
-                                "timeout": "0.12:00:00",
-                                "retry": 0,
-                                "retryIntervalInSeconds": 30,
-                                "secureOutput": false,
-                                "secureInput": false
-                            },
-                            "userProperties": [],
-                            "typeProperties": {
-                                "source": {
-                                    "type": "SqlServerSource",
-                                    "sqlReaderQuery": {
-                                        "value": "@{concat('Select * from ', item().table_schema, '.', item().table_name,' where ModifiedDate >=  STUFF(STUFF(STUFF(','''',activity('Get Start Date HS Entry').output.firstRow.low_last_execution_time,'''',',13,0,','''',':','''','),11,0,','''',':','''','),9,0,','''',' ','''',')')}",
-                                        "type": "Expression"
-                                    },
-                                    "queryTimeout": "02:00:00",
-                                    "partitionOption": "None"
-                                },
-                                "sink": {
-                                    "type": "ParquetSink",
-                                    "storeSettings": {
-                                        "type": "AzureBlobFSWriteSettings"
-                                    },
-                                    "formatSettings": {
-                                        "type": "ParquetWriteSettings"
-                                    }
-                                },
-                                "enableStaging": false,
-                                "translator": {
-                                    "type": "TabularTranslator",
-                                    "typeConversion": true,
-                                    "typeConversionSettings": {
-                                        "allowDataTruncation": true,
-                                        "treatBooleanAsNumber": false
-                                    }
-                                }
-                            },
-                            "inputs": [
-                                {
-                                    "referenceName": "GetAllTablesSalesEach",
-                                    "type": "DatasetReference"
-                                }
-                            ],
-                            "outputs": [
-                                {
-                                    "referenceName": "ParquetSalesFiles",
-                                    "type": "DatasetReference",
-                                    "parameters": {
-                                        "table_schema": {
-                                            "value": "@{item().table_schema}",
-                                            "type": "Expression"
-                                        },
-                                        "table_name": {
-                                            "value": "@{item().table_name}",
-                                            "type": "Expression"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        {
                             "name": "Get Start Date HS Entry",
                             "type": "Lookup",
                             "dependsOn": [],
@@ -244,13 +173,133 @@
                                 "referenceName": "SQLProcedure",
                                 "type": "LinkedServiceReference"
                             }
+                        },
+                        {
+                            "name": "RecordCount",
+                            "type": "Lookup",
+                            "dependsOn": [
+                                {
+                                    "activity": "Update New Entires",
+                                    "dependencyConditions": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            ],
+                            "policy": {
+                                "timeout": "0.12:00:00",
+                                "retry": 0,
+                                "retryIntervalInSeconds": 30,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "source": {
+                                    "type": "SqlServerSource",
+                                    "sqlReaderQuery": {
+                                        "value": "@{concat('Select count(*) as RecordCount from ', item().table_schema, '.', item().table_name,' where ModifiedDate >=  STUFF(STUFF(STUFF(','''',activity('Get End Date HS Entry').output.firstRow.high_last_execution_time,'''',',13,0,','''',':','''','),11,0,','''',':','''','),9,0,','''',' ','''',')')}",
+                                        "type": "Expression"
+                                    },
+                                    "queryTimeout": "02:00:00",
+                                    "partitionOption": "None"
+                                },
+                                "dataset": {
+                                    "referenceName": "GetAllTables_Sales",
+                                    "type": "DatasetReference"
+                                }
+                            }
+                        },
+                        {
+                            "name": "If Condition1",
+                            "type": "IfCondition",
+                            "dependsOn": [
+                                {
+                                    "activity": "RecordCount",
+                                    "dependencyConditions": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            ],
+                            "userProperties": [],
+                            "typeProperties": {
+                                "expression": {
+                                    "value": "@greater(activity('RecordCount').output.firstRow.RecordCount ,0)",
+                                    "type": "Expression"
+                                },
+                                "ifTrueActivities": [
+                                    {
+                                        "name": "Publish_File_to_DL",
+                                        "type": "Copy",
+                                        "dependsOn": [],
+                                        "policy": {
+                                            "timeout": "0.12:00:00",
+                                            "retry": 0,
+                                            "retryIntervalInSeconds": 30,
+                                            "secureOutput": false,
+                                            "secureInput": false
+                                        },
+                                        "userProperties": [],
+                                        "typeProperties": {
+                                            "source": {
+                                                "type": "SqlServerSource",
+                                                "sqlReaderQuery": {
+                                                    "value": "@{concat('Select * from ', item().table_schema, '.', item().table_name,' where ModifiedDate >=  STUFF(STUFF(STUFF(','''',activity('Get End Date HS Entry').output.firstRow.high_last_execution_time,'''',',13,0,','''',':','''','),11,0,','''',':','''','),9,0,','''',' ','''',')')}",
+                                                    "type": "Expression"
+                                                },
+                                                "queryTimeout": "02:00:00",
+                                                "partitionOption": "None"
+                                            },
+                                            "sink": {
+                                                "type": "ParquetSink",
+                                                "storeSettings": {
+                                                    "type": "AzureBlobFSWriteSettings"
+                                                },
+                                                "formatSettings": {
+                                                    "type": "ParquetWriteSettings"
+                                                }
+                                            },
+                                            "enableStaging": false,
+                                            "translator": {
+                                                "type": "TabularTranslator",
+                                                "typeConversion": true,
+                                                "typeConversionSettings": {
+                                                    "allowDataTruncation": true,
+                                                    "treatBooleanAsNumber": false
+                                                }
+                                            }
+                                        },
+                                        "inputs": [
+                                            {
+                                                "referenceName": "GetAllTablesSalesEach",
+                                                "type": "DatasetReference"
+                                            }
+                                        ],
+                                        "outputs": [
+                                            {
+                                                "referenceName": "ParquetSalesFiles",
+                                                "type": "DatasetReference",
+                                                "parameters": {
+                                                    "table_schema": {
+                                                        "value": "@{item().table_schema}",
+                                                        "type": "Expression"
+                                                    },
+                                                    "table_name": {
+                                                        "value": "@{item().table_name}",
+                                                        "type": "Expression"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }
             }
         ],
         "annotations": [],
-        "lastPublishTime": "2024-09-25T23:47:53Z"
+        "lastPublishTime": "2024-09-26T15:05:57Z"
     },
     "type": "Microsoft.DataFactory/factories/pipelines"
 }
