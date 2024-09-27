@@ -288,7 +288,7 @@
 														"type": "Expression"
 													},
 													"start_date_delta": {
-														"value": "@activity('Get End Date HS Entry').output.firstRow.high_last_execution_time",
+														"value": "@formatDateTime(utcNow(),'yyyyMMddHHmmss')",
 														"type": "Expression"
 													}
 												}
