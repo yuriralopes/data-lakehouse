@@ -1,8 +1,7 @@
 # Data Lakehouse Project
 ## About
 
-This project was inspired by the Trampar-de-Lakehouse (https://github.com/TeoMeWhy/trampar-de-lakehouse/blob/main/lib/ingestors.py) project, but with some differences, such as the data source and architecture.
-
+This project is a simple data architecture in Azure, using SQL Server as the data source, ADF as ETL, Azure Data Lake as the storage layer, Azure Databricks to transform the data, and finally, Power BI for reporting.
 
 ![image](https://github.com/user-attachments/assets/c3b1a398-3413-488d-a4fa-ac3b9e6195a3)
 
@@ -30,3 +29,9 @@ An Azure Data Factory Resource was deployed to be used as an ETL tool in our arc
 A Data Lake will be the target for ours pipelines. Raw data will be extracted from source and placed in a bronze layer in data lake container. It will be called: dldatalakehouse.
 
 There will be three containers: Bronze, Silver and Gold.
+
+##### Azure Databricks
+An Azure Databricks resource will be used to transform and move the data between containers (Bronze to Silver and Silver to Gold).
+
+##### Power BI
+Power BI will be used to create interactive dashboards and reports that enable real-time data analysis, facilitating decision-making.
