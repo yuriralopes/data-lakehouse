@@ -25,8 +25,8 @@ configs = {"fs.azure.account.auth.type": "OAuth",
           "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/d1c90e28-32cb-41ac-b3eb-5dced487b30a/oauth2/token"}
 
 # Optionally, you can add <directory-name> to the source URI of your mount point.
-dbutils.fs.mount(
-  source = "abfss://bronze@dldatalakehouse.dfs.core.windows.net/",
+dbutils.fs.updateMount(
+  source = "abfss://silver@dldatalakehouse.dfs.core.windows.net/",
   mount_point = "/mnt/silver/",
   extra_configs = configs)
 
@@ -42,8 +42,8 @@ configs = {"fs.azure.account.auth.type": "OAuth",
           "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/d1c90e28-32cb-41ac-b3eb-5dced487b30a/oauth2/token"}
 
 # Optionally, you can add <directory-name> to the source URI of your mount point.
-dbutils.fs.mount(
-  source = "abfss://bronze@dldatalakehouse.dfs.core.windows.net/",
+dbutils.fs.updateMount(
+  source = "abfss://gold@dldatalakehouse.dfs.core.windows.net/",
   mount_point = "/mnt/gold/",
   extra_configs = configs)
 
