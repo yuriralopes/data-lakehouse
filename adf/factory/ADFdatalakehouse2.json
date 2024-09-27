@@ -1,0 +1,9 @@
+{
+	"name": "ADFdatalakehouse2",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "40e50768-c818-4a10-acce-7b260a8541cf",
+		"tenantId": "d1c90e28-32cb-41ac-b3eb-5dced487b30a"
+	}
+}
