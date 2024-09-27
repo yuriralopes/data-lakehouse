@@ -1,0 +1,309 @@
+{
+	"name": "ADF_SalesData_Delta",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get all tables from Sales",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select A.table_schema, A.table_name FROM information_schema.tables A \nwhere A.table_schema = 'Sales' and A.table_type = 'BASE TABLE'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GetAllTables_Sales",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Each Table in SQL",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get all tables from Sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get all tables from Sales').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Get Start Date HS Entry",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@{concat('Select low_last_execution_time from [dbo].[HandshakingDB] where name_Schema =','''', item().table_schema,'''', ' and name_table = ','''', item().table_name,'''')}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "GetTimeStamp",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Get End Date HS Entry",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@{concat('Select high_last_execution_time from [dbo].[HandshakingDB] where name_Schema =','''', item().table_schema,'''', ' and name_table = ','''', item().table_name,'''')}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "GetTimeStamp",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Update New Entires",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Get Start Date HS Entry",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Get End Date HS Entry",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[updateHSEntry]",
+								"storedProcedureParameters": {
+									"name_table": {
+										"value": {
+											"value": "@item().table_name",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"last_execution_date": {
+										"value": {
+											"value": "@formatDateTime(utcNow(),'yyyyMMdd')",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"low_last_execution_time": {
+										"value": {
+											"value": "@activity('Get End Date HS Entry').output.firstRow.high_last_execution_time",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"high_last_execution_time": {
+										"value": {
+											"value": "@formatDateTime(utcNow(),'yyyyMMddHHmmss')",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"name_Schema": {
+										"value": {
+											"value": "@item().table_schema",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "SQLProcedure",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "RecordCount",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Update New Entires",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@{concat('Select count(*) as RecordCount from ', item().table_schema, '.', item().table_name,' where ModifiedDate >=  STUFF(STUFF(STUFF(','''',activity('Get End Date HS Entry').output.firstRow.high_last_execution_time,'''',',13,0,','''',':','''','),11,0,','''',':','''','),9,0,','''',' ','''',')')}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "GetAllTables_Sales",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "RecordCount",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(activity('RecordCount').output.firstRow.RecordCount ,0)",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Publish_File_to_DL",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "@{concat('Select * from ', item().table_schema, '.', item().table_name,' where ModifiedDate >=  STUFF(STUFF(STUFF(','''',activity('Get End Date HS Entry').output.firstRow.high_last_execution_time,'''',',13,0,','''',':','''','),11,0,','''',':','''','),9,0,','''',' ','''',')')}",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "GetAllTablesSalesEach",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ParquetSalesFiles",
+												"type": "DatasetReference",
+												"parameters": {
+													"table_schema": {
+														"value": "@{item().table_schema}",
+														"type": "Expression"
+													},
+													"table_name": {
+														"value": "@{item().table_name}",
+														"type": "Expression"
+													},
+													"start_date_delta": {
+														"value": "@activity('Get End Date HS Entry').output.firstRow.high_last_execution_time",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-09-27T00:01:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

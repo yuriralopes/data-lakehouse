@@ -1,0 +1,34 @@
+{
+	"name": "GetTimeStampHS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "name_table",
+				"type": "varchar"
+			},
+			{
+				"name": "last_execution_date",
+				"type": "char"
+			},
+			{
+				"name": "low_last_execution_time",
+				"type": "char"
+			},
+			{
+				"name": "high_last_execution_time",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "HandshakingDB"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
