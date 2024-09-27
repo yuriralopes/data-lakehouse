@@ -30,7 +30,7 @@ dbutils.fs.mount(
   mount_point = "/mnt/silver/",
   extra_configs = configs)
 
-  dbutils.fs.ls("/mnt/silver/")
+dbutils.fs.ls("/mnt/silver/")
 
 # COMMAND ----------
 
@@ -47,4 +47,4 @@ dbutils.fs.mount(
   mount_point = "/mnt/gold/",
   extra_configs = configs)
 
-  dbutils.fs.ls("/mnt/gold/")
+dbutils.fs.ls("/mnt/gold/")
