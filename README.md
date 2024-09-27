@@ -23,9 +23,9 @@ Azure Key Vault is a cloud service for securely storing and accessing secrets. I
 ##### Azure Data Factory
 An Azure Data Factory Resource was deployed to be used as an ETL tool in our architecture. Since the data source (SQL Server) is on a local machine, a Self-Hosted Integration Runtime will be used.
 
->> Pipeline: ADF_SalesData_Delta
+> Pipeline: ADF_SalesData_Delta
 
-> Raw Data: ADF will send the information from SQL Server to the bronze layer of the Data Lake. The data will be sent as it is in the table, without any changes. All tables have a "ModifiedDate" column, which will be used for delta control. All records updated since the last execution will be sent to the Data Lake. The date and time of the last execution will be saved in a table created specifically for this purpose. 
+> Raw Data: ADF will send the data from SQL Server to the bronze layer of the Data Lake. The data will be sent as it is in the table, without any changes. All tables have a "ModifiedDate" column, which will be used for delta control. All records updated since the last execution will be sent to the Data Lake. The date and time of the last execution will be saved in a table created specifically for this purpose. 
 
 ##### Azure Data Lake Gen2
 A Data Lake will be the target for ours pipelines. Raw data will be extracted from source and placed in a bronze layer in data lake container. It will be called: dldatalakehouse.
