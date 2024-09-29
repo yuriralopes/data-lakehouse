@@ -36,4 +36,4 @@ There will be three containers: Bronze, Silver and Gold.
 An Azure Databricks resource will be used to transform and move the data between containers (Bronze to Silver and Silver to Gold).
 
 ##### Power BI
-Power BI will be used to create interactive dashboards and reports that enable real-time data analysis, facilitating decision-making.
+Power BI will be used in the NEXT PROJECT along with AZURE SYNAPSE ANALYTICS to create interactive dashboards and reports that enable real-time data analysis, facilitating decision-making.
